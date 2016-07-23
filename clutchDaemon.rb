@@ -11,14 +11,15 @@ require 'drb'
 $hostname = `hostname`.chomp!
 $options = {}
 
-$options[:host] = '10.0.1.17'
+$options[:host] = ARGV[0] || '10.0.1.75'
 $options[:db] = 1
-$options[:port] = '6379'
-$options[:table] = 'system:log'
-$options[:hookLog] = '/var/log/syslog'
-$options[:email] = false
-$options[:eventsPerMail] = 1000
-$DEBUG = true
+$options[:port] = ARGV[1] || '6379'
+$options[:hooker] = ARGV[2] || '/etc/'
+#$options[:table] = 'system:log'
+#$options[:hookLog] = '/var/log/syslog'
+#$options[:email] = false
+#$options[:eventsPerMail] = 1000
+#$DEBUG = true
 #$logger = Logger.new('enque.log', 'a+')
 
 Redis::Objects.redis = ConnectionPool.new(size: 5, timeout: 5) {
