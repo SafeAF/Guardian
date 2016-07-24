@@ -1,76 +1,7 @@
 #!/usr/bin/env ruby
-require 'redis'
-require 'redis-objects'
-require 'connection_pool'
-require 'logger'
-require 'thread'
-require 'rb-inotify'
-require 'drb'
-#require 'rinda'
-
-$hostname = `hostname`.chomp!
-$options = {}
-
-$options[:host] = ARGV[0] || '10.0.1.75'
-$options[:db] = 1
-$options[:port] = ARGV[1] || '6379'
-$options[:hooker] = ARGV[2] || '/etc/'
-#$options[:table] = 'system:log'
-#$options[:hookLog] = '/var/log/syslog'
-#$options[:email] = false
-#$options[:eventsPerMail] = 1000
-#$DEBUG = true
-#$logger = Logger.new('enque.log', 'a+')
-
-Redis::Objects.redis = ConnectionPool.new(size: 5, timeout: 5) {
-	Redis.new({host: $options[:host], port: $options[:port], db: $options[:db]})}
-
-$r = Redis::List.new('system:notifications', :marshal => true) #, :expiration => 5)
-$spool = Redis::List.new('system:log:spool', :marshal => true)  # for end of day mailer
-
-$archive = Redis::List.new('system:log:archive', :marshal => true)
-
-def constructor(verb, event)
-  str = "#{Time.now}-#{$hostname}-> #{$DIR}/#{event.name} was #{verb}"
-  $r << str
-  $archive << str
-	if $options[:email]
-		$spool << str
-	end
-end
-
-def parser event
-	begin
-	p "In parser #{Time.now}"
-	tim = "#{Time.now}-#{$hostname}: "
-	fil = "#{event.name} "
-	if event.flags.include? :create #, :access
-		constructor('created', event)
-		sleep 1
-	elsif event.flags.include? :delete
-		constructor('deleted', event)
-		sleep 1
-
-	elsif event.flags.include? :modify
-		constructor('modified', event)
-		sleep 1
-
-	end
-
-	rescue => err
-		p "[ERROR] #{Time.now} - #{err.inspect} #{err.backtrace}"
-		sleep 10
-		retry
-	end
-
-end
 
 
-## TODO Add time elapsed per event dump in here eventually
-def mailer(events, address, elapsed)
-	address.gsub!(/[\W\d]+/)
-	`echo #{events} events in #{elapsed} seconds! #{$archive.values.join("\n")} | ssmtp -vvv #{address}`
-end
+
 
 begin
 	$DIR =  '/etc'
