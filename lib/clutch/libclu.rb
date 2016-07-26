@@ -1,12 +1,37 @@
 
 
 class Event
+  attr_accessor :records
 
-  def record(verb, event, directory, hostname)
-   return "#{Time.now}-#{hostname}-> #{directory}/#{event.name} was #{verb}"
+  class << self
+    def formatter(verb, event, directory, hostname)
+      return "#{Time.now}-#{hostname}-> #{directory}/#{event.name} was #{verb}"
+    end
+
+    def parser event
+      if event.flags.include? :create #, :access
+
+        p "foo"
+
+      elsif event.flags.include? :delete
+        p "bar"
+
+      elsif event.flags.include? :modify
+        p "foobar"
+
+
+      elsif event.flags.include? :access
+        p "co"
+
+      else
+        p "ca"
+      end
+
+    end
   end
-
 end
+
+
 
 
 
