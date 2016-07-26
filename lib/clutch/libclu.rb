@@ -1,5 +1,4 @@
 
-
 class Event
   attr_accessor :records
 
@@ -9,6 +8,7 @@ class Event
     end
 
     def parser event
+      begin
       if event.flags.include? :create #, :access
 
         p "foo"
@@ -27,39 +27,17 @@ class Event
         p "ca"
       end
 
+      rescue => err
+        p "[ERROR] #{Time.now} - #{err.inspect} #{err.backtrace}"
+	    	sleep 10
+	    	retry
+      end
+
     end
   end
 end
 
 
-
-
-
-def parser event
-	begin
-	p "In parser #{Time.now}"
-	tim = "#{Time.now}-#{$hostname}: "
-	fil = "#{event.name} "
-	if event.flags.include? :create #, :access
-		constructor('created', event)
-		sleep 1
-	elsif event.flags.include? :delete
-		constructor('deleted', event)
-		sleep 1
-
-	elsif event.flags.include? :modify
-		constructor('modified', event)
-		sleep 1
-
-	end
-
-	rescue => err
-		p "[ERROR] #{Time.now} - #{err.inspect} #{err.backtrace}"
-		sleep 10
-		retry
-	end
-
-end
 
 
 ## TODO Add time elapsed per event dump in here eventually
