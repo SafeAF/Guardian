@@ -6,9 +6,6 @@ require 'thread'
 require 'rb-inotify'
 #require 'drb'
 #require 'rinda'
-BEGIN{
-$hostname = `hostname`.chomp!
-$options = {}
 <<EOL
     {one line to give the program's name and a brief idea of what it does.}
     Copyright (C) {year}  {name of author}
@@ -27,6 +24,10 @@ $options = {}
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ## insert optionparser code instead of argv reads
 EOL
+BEGIN{
+$hostname = `hostname`.chomp!
+$options = {}
+
 
 $options[:host] = ARGV[0] || '10.0.1.75'
 $options[:db] = 1
