@@ -4,6 +4,11 @@ Guardian Proto IDS. Uses inotify subsystem in linux to detect changes in files a
 # Installation
 
 # Development
+ 1. Clone
+ 2. Either create an issue (search first) or select one listed under issues, optionally ask for issue to be assigned to you (non employees)
+ 3. Make changes
+ 3. Create a pull request and submit
+ 
 
 # TODO/Plans
 
