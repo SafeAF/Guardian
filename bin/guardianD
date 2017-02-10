@@ -1,39 +1,30 @@
 #!/usr/bin/env ruby
+require 'logger'
+require 'rb-inotify'
 
-
-
+$DBG = true
 
 begin
 	$DIR =  '/etc'
 	start_time = Time.now
 	events = 0
-  DRb.start_service
-  screen = DRbObject.new_with_uri(nil, 'druby://localhost:1900')
+
 
 	hook = INotify::Notifier.new
 	hook.watch($DIR, :create, :delete, :modify, :moved_from) do |event|
 		next if event.nil?
-	  Thread.new { screen.push_notify(event) }
-    Thread.join
-			p "Event name: #{event.name} \n"
+		p "Event name: #{event.name} \n" if $DBG
 		parser(event)
 		events += 1
-		if events > $options[:eventsPerMail] && $MAILER
-			events_threshold =  Time.now
-			seconds_to_event_threshold = events_threshold - start_time
-			start_time = Time.now
-			events_threshold = ''
-			mailer(events, ARGV[1], seconds_to_event_threshold)
-
 		end
-	#	sleep 5
-	end
-
 	hook.run
+
+end
+
 
 
 rescue => err
-	#$logger.info "#{Time.now}: Error: #{err.inspect}"
+	$logger.info "#{Time.now}: Error: #{err.inspect}"
 
 end
 
