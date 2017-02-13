@@ -19,9 +19,6 @@ begin
 		end
 	hook.run
 
-end
-
-
 
 rescue => err
 	$logger.info "#{Time.now}: Error: #{err.inspect}"
