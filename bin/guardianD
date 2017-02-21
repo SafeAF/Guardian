@@ -1,21 +1,31 @@
 #!/usr/bin/env ruby
 require 'logger'
 require 'rb-inotify'
+require 'json'
 
 $DBG = true
-$HO
+$SYSTEMSTACK0 =  '10.0.1.34'
+
+# Send to channel named after the host so we can easily track where alerts came from
+# and to selectively follow hosts were interested in, for example.
+CHANNEL = `hostname`
+
+# DB doesnt matter since its pubsub
+Redis.new({host: $SYSTEMSTACK0, port: '6379', db: 1})
+
 begin
 	$DIR =  '/etc'
-	start_time = Time.now
-	events = 0
+
 
 
 	hook = INotify::Notifier.new
 	hook.watch($DIR, :create, :delete, :modify, :moved_from) do |event|
 		next if event.nil?
-		p "Event name: #{event.name} flags:#{event.flags} \n" if $DBG
-		parser(event)
-		events += 1
+		p "[Guardian] #{Time.now}:Event name: #{event.name} flags:#{event.flags} \n" if $DBG
+		eventAsHash = Hash.new
+		eventAsHash[event.name] = event.flags.to_json
+		redis.publish CHANNEL, eventAsHash.to_json
+
 		end
 	hook.run
 
@@ -26,10 +36,6 @@ rescue => err
 end
 
 
-
-		def formatter(verb, event, directory, hostname)
-			return "#{Time.now}-#{hostname}-> #{directory}/#{event.name} was #{verb}"
-		end
 
 
 
