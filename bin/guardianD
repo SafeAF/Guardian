@@ -3,7 +3,7 @@ require 'logger'
 require 'rb-inotify'
 
 $DBG = true
-
+$HO
 begin
 	$DIR =  '/etc'
 	start_time = Time.now
@@ -13,7 +13,7 @@ begin
 	hook = INotify::Notifier.new
 	hook.watch($DIR, :create, :delete, :modify, :moved_from) do |event|
 		next if event.nil?
-		p "Event name: #{event.name} \n" if $DBG
+		p "Event name: #{event.name} flags:#{event.flags} \n" if $DBG
 		parser(event)
 		events += 1
 		end
@@ -21,10 +21,27 @@ begin
 
 
 rescue => err
-	$logger.info "#{Time.now}: Error: #{err.inspect}"
+	$logger.info "[Guardian] #{Time.now} - #{err.inspect} #{err.backtrace}"
 
 end
 
+
+
+		def formatter(verb, event, directory, hostname)
+			return "#{Time.now}-#{hostname}-> #{directory}/#{event.name} was #{verb}"
+		end
+
+
+
+
+
+
+
+## TODO Add time elapsed per event dump in here eventually
+def mailer(events, address, elapsed)
+	address.gsub!(/[\W\d]+/)
+	`echo #{events} events in #{elapsed} seconds! #{$archive.values.join("\n")} | ssmtp -vvv #{address}`
+end
 
 
 # rescue => err
