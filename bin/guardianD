@@ -10,16 +10,14 @@ $SYSTEMSTACK0 =  '10.0.1.34'
 # and to selectively follow hosts were interested in, for example.
 CHANNEL = `hostname`
 
-# DB doesnt matter since its pubsub
-Redis.new({host: $SYSTEMSTACK0, port: '6379', db: 1})
+$DIRS = ARGV[0..-1]
 
 begin
-	$DIR =  '/etc'
+	Redis.new({host: $SYSTEMSTACK0, port: '6379', db: 1})
 
-
-
+	file = ARGV[0]
 	hook = INotify::Notifier.new
-	hook.watch($DIR, :create, :delete, :modify, :moved_from) do |event|
+	hook.watch(file, :create, :delete, :modify, :moved_from) do |event|
 		next if event.nil?
 		p "[Guardian] #{Time.now}:Event name: #{event.name} flags:#{event.flags} \n" if $DBG
 		eventAsHash = Hash.new
