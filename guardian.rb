@@ -18,13 +18,14 @@ $DIRS = ARGV[1..-1]
 
 begin
 	Redis.new({host: $SYSTEMSTACK0, port: '6379', db: 1})
+	$logger = STDOUT
   file = ARGV[0]
 	#$DIRS.each do |file| ## need to test threaded v. properly before implementing fully
 	#	Thread.new do |file|
 	hook = INotify::Notifier.new
 	hook.watch(file, :create, :delete, :modify, :moved_from) do |event|
 		next if event.nil?
-		p "[Guardian] #{Time.now}:Event name: #{event.name} flags:#{event.flags} \n" if $DBG
+		$logger.info "[Guardian] #{Time.now}:Event name: #{event.name} flags:#{event.flags} \n" if $DBG
 		eventAsHash = Hash.new
 		eventAsHash[event.name] = event.flags.to_json
 		redis.publish CHANNEL, eventAsHash.to_json
@@ -33,7 +34,7 @@ begin
 #	end
 	# end
 rescue => err
-	$logger.info "[Guardian] #{Time.now} - #{err.inspect} #{err.backtrace}"
+	$logger.error "[Guardian] #{Time.now} - #{err.inspect} #{err.backtrace}"
 
 end
 
