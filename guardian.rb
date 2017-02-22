@@ -2,6 +2,10 @@
 require 'logger'
 require 'rb-inotify'
 require 'json'
+require 'redis'
+require 'redis-objects'
+require 'connection_pool'
+require 'thread'
 
 $DBG = true
 $SYSTEMSTACK0 =  '10.0.1.34'
