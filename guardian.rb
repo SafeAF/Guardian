@@ -14,7 +14,7 @@ $SYSTEMSTACK0 =  '10.0.1.34'
 # and to selectively follow hosts were interested in, for example.
 CHANNEL = `hostname`
 
-$DIRS = ARGV[0..-1]
+$DIRS = ARGV[1..-1]
 
 begin
 	Redis.new({host: $SYSTEMSTACK0, port: '6379', db: 1})
