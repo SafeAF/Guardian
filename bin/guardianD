@@ -14,8 +14,9 @@ $DIRS = ARGV[0..-1]
 
 begin
 	Redis.new({host: $SYSTEMSTACK0, port: '6379', db: 1})
-
-	file = ARGV[0]
+  file = ARGV[0]
+	#$DIRS.each do |file| ## need to test threaded v. properly before implementing fully
+	#	Thread.new do |file|
 	hook = INotify::Notifier.new
 	hook.watch(file, :create, :delete, :modify, :moved_from) do |event|
 		next if event.nil?
@@ -23,41 +24,15 @@ begin
 		eventAsHash = Hash.new
 		eventAsHash[event.name] = event.flags.to_json
 		redis.publish CHANNEL, eventAsHash.to_json
-
 		end
 	hook.run
-
-
+#	end
+	# end
 rescue => err
 	$logger.info "[Guardian] #{Time.now} - #{err.inspect} #{err.backtrace}"
 
 end
 
-
-
-
-
-
-
-
-
-## TODO Add time elapsed per event dump in here eventually
-def mailer(events, address, elapsed)
-	address.gsub!(/[\W\d]+/)
-	`echo #{events} events in #{elapsed} seconds! #{$archive.values.join("\n")} | ssmtp -vvv #{address}`
-end
-
-
-# rescue => err
-#	$logger.info "#{Time.now}: #{err.inspect} backtrace: #{err.backtrace}"
-#end
-
-
-#}
-
-#dirHookEtc.Thread.join
-
-#logHook.Thread.join
 
 
 __END__
@@ -129,3 +104,12 @@ __END__
 #	end
 
 
+
+#dirHookEtc.Thread.join
+
+#logHook.Thread.join
+
+def mailer(events, address, elapsed)
+	address.gsub!(/[\W\d]+/)
+	`echo #{events} events in #{elapsed} seconds! #{$archive.values.join("\n")} | ssmtp -vvv #{address}`
+end
