@@ -6,15 +6,47 @@ require 'redis'
 require 'redis-objects'
 require 'connection_pool'
 require 'thread'
+require 'optparse'
+require 'httparty'
+require 'md5sum'
+
+
+opt = Hash.new
+optparser = OptionParser.new do |opts|
+	opts.banner = "Usage: Guardian <-o option>"
+
+	opt[:verbose] = false
+	opts.on('-v', '--verbose', 'Provide more information than usual') do
+  	opt[:verbose] = true
+	end
+
+	options[:logfile] = false
+	opts.on( '-l', '--logfile FILE', 'Write log to FILE' ) do|file|
+		options[:logfile] = file
+	end
+end
+
+optparser.parse! #destructive form removes options leaves file and dirs
+
+$DIRS = ARGV
 
 $DBG = true
 $SYSTEMSTACK0 =  '10.0.1.34'
 
 # Send to channel named after the host so we can easily track where alerts came from
 # and to selectively follow hosts were interested in, for example.
+
+
 CHANNEL = `hostname`
 
-$DIRS = ARGV[1..-1]
+
+#option parser -> config parser too
+
+# http messagehub transport in addition to redis
+
+
+
+
 
 begin
 	Redis.new({host: $SYSTEMSTACK0, port: '6379', db: 1})
