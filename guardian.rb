@@ -1,13 +1,6 @@
 #!/usr/bin/env ruby
-require 'logger'
 require 'rb-inotify'
-require 'thread'
-
-
 $DBG = true
-
-
-
 
 begin
 
