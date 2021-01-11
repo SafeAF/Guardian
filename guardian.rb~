@@ -5,6 +5,9 @@ require 'thread'
 
 
 
+
+optparser.parse! #destructive form removes options leaves file and dirs
+
 $DIRS = ARGV
 $DBG = true
 
