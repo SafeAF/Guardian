@@ -34,11 +34,12 @@ begin
 			" file or directory argument required"
 	end
 	initiateInotify(ARGV[0], server)
+rescue Errno::ECONNREFUSED
+	p "Connection refused, server: #{server}"
+	sleep 1
+	retry 
 rescue => err
 	p "[Guardian] #{Time.now} - #{err.inspect} #{err.backtrace}"
-	sleep 1
-	retry
-
 end
 
 
