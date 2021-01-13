@@ -9,6 +9,8 @@ end
 post '/delta' do
     payload = params
     payload = JSON.parse(request.body.read) unless params[:path]
-#######
-    p "Saving #{payload[:name]}"
+
+    p "#{payload["name"]} : #{payload["flags"]}"
 end
+
+
