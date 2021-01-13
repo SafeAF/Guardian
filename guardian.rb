@@ -36,6 +36,8 @@ begin
 	initiateInotify(ARGV[0], server)
 rescue => err
 	p "[Guardian] #{Time.now} - #{err.inspect} #{err.backtrace}"
+	sleep 1
+	retry
 
 end
 
