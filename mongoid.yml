@@ -1,0 +1,6 @@
+development:
+	sessions:
+		default:
+			database: guardian_dev
+			hosts: 
+				- localhost: 27017
