@@ -5,7 +5,7 @@ require 'net/http'
 require 'json'
 
 $DBG = true
-server = ARGV[1] || "http://localhost:4567/delta"
+server = ARGV[1] || "http://localhost:4567/" + "/post_json"
 
 def initiateInotify(targetDir, server)
 	p "Watching #{targetDir}" if $DBG	
@@ -13,7 +13,10 @@ def initiateInotify(targetDir, server)
 	hook.watch(targetDir, :create, :delete, :modify, :moved_from) do |event|
 		next if event.nil?
 		p "#{Time.now}: Event name: #{event.name} flags:#{event.flags}" if $DBG
-		postJSON(server, {:name => event.name, :flags => event.flags}.to_json)
+		postJSON(server, 
+		{:time => Time.now,
+		 :name => event.name, 
+		 :flags => event.flags}.to_json)
 		end
 	hook.run
 end
