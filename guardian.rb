@@ -14,10 +14,11 @@ def initiateInotify(targetDir, server)
 		next if event.nil?
 		p "#{Time.now}: Event name: #{event.name} flags:#{event.flags}" if $DBG
 		postJSON(server, 
-		{:time => Time.now,
+		{:hostname => `hostname`.chomp!,
+		 :time => Time.now,
 		 :name => event.name, 
 		 :flags => event.flags}.to_json)
-		end
+	end
 	hook.run
 end
 
