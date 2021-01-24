@@ -5,7 +5,8 @@ require 'net/http'
 require 'json'
 
 $DBG = true
-server = ARGV[1] || "http://localhost:4567" + "/post_json"
+server = ARGV[1] || "http://localhost:4567" 
+server += "/post_json"
 
 def initiateInotify(targetDir, server)
 	p "Watching #{targetDir}" if $DBG	
