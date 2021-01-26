@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Hostname:</strong>
+  <%= @host.hostname %>
+</p>
+
+<p>
+  <strong>Ip:</strong>
+  <%= @host.ip %>
+</p>
+
+<p>
+  <strong>First seen:</strong>
+  <%= @host.first_seen %>
+</p>
+
+<p>
+  <strong>Last seen:</strong>
+  <%= @host.last_seen %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @host.user_id %>
+</p>
+
+<%= link_to 'Edit', edit_host_path(@host) %> |
+<%= link_to 'Back', hosts_path %>
