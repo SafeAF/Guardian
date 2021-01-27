@@ -11,9 +11,9 @@ $redis = Redis.new(:timeout => 0)
 
 ActiveRecord::Base.establish_connection(
   adapter: 'sqlite3',
-  database: ':memory:')
+  database: 'db/development.sqlite3')
   
-#binding.pry
+binding.pry
 
 # need a list of hosts to subcribe to
 $redis.subscribe('guardian') do |on|
