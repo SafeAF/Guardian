@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_26_160917) do
+ActiveRecord::Schema.define(version: 2021_01_27_144141) do
+
+  create_table "file_delta", force: :cascade do |t|
+    t.string "filename"
+    t.string "directory"
+    t.datetime "event_time"
+    t.boolean "moved_from_flag"
+    t.boolean "create_flag"
+    t.boolean "delete_flag"
+    t.boolean "modify_flag"
+    t.integer "host_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["host_id"], name: "index_file_delta_on_host_id"
+  end
 
   create_table "hosts", force: :cascade do |t|
     t.string "hostname"
@@ -30,5 +44,6 @@ ActiveRecord::Schema.define(version: 2021_01_26_160917) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "file_delta", "hosts"
   add_foreign_key "hosts", "users"
 end

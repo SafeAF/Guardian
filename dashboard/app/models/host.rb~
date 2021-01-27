@@ -1,4 +1,4 @@
 class Host < ApplicationRecord
-  has_many :file_delta
+  has_many :file_deltum
   belongs_to :user
 end
