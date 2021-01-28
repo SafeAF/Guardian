@@ -21,15 +21,18 @@ $redis.subscribe('guardian') do |on|
 			h = Host.find_by hostname: payload['hostname']
 			f = FileDeltum.create!(event_time: payload['time'],
 				filename: payload['name'])
-
+				# implement this more cleanly
 				payload["flags"].each {|flag|
 					if flag == "create" 
 						f.create_flag = true
-					elsif flag == "moved_from" 
+					end
+					if flag == "moved_from" 
 						f.move_from_flag = true
-					elsif flag == "modify" 
+					end
+					if flag == "modify" 
 						f.modify_flag = true
-					elsif flag == "delete" 
+					end
+					if flag == "delete" 
 						f.delete_flag = true
 					end}
 				f.save!
