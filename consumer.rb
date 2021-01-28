@@ -16,10 +16,10 @@ ActiveRecord::Base.establish_connection(
 $redis.subscribe('guardian') do |on|
 	on.message do |channel, msg|
 		payload = JSON.parse(msg)
-
+#binding.pry
 		if Host.exists?(hostname: payload['hostname'])
 			h = Host.find_by hostname: payload['hostname']
-			f = FileDeltum.create!(event_time: payload['time'],
+			f = FileDeltum.create(event_time: payload['time'],
 				filename: payload['name'])
 				# implement this more cleanly
 				payload["flags"].each {|flag|
@@ -27,7 +27,7 @@ $redis.subscribe('guardian') do |on|
 						f.create_flag = true
 					end
 					if flag == "moved_from" 
-						f.move_from_flag = true
+						f.moved_from_flag = true
 					end
 					if flag == "modify" 
 						f.modify_flag = true
@@ -35,7 +35,9 @@ $redis.subscribe('guardian') do |on|
 					if flag == "delete" 
 						f.delete_flag = true
 					end}
-				f.save!
+				h.file_delta << f
+				h.save!
+				
 		end
 	end
 end
