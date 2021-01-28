@@ -13,7 +13,6 @@ ActiveRecord::Base.establish_connection(
   adapter: 'sqlite3',
   database: 'db/development.sqlite3')
 
-
 $redis.subscribe('guardian') do |on|
 	on.message do |channel, msg|
 		payload = JSON.parse(msg)
@@ -32,12 +31,8 @@ $redis.subscribe('guardian') do |on|
 						f.modify_flag = true
 					elsif flag == "delete" 
 						f.delete_flag = true
-					end
-					
-					}
+					end}
 				f.save!
-
 		end
-		p "#{payload["time"]}: #{payload["hostname"]} - #{payload["name"]} : #{payload["flags"]}"
 	end
 end

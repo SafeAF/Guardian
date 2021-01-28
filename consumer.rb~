@@ -18,11 +18,11 @@ $redis.subscribe('guardian') do |on|
 	on.message do |channel, msg|
 		payload = JSON.parse(msg)
 
-		if Host.exists?(hostname: payload['host'])
-			h = Host.find_by hostname: payload['host']
+		if Host.exists?(hostname: payload['hostname'])
+			h = Host.find_by hostname: payload['hostname']
 			f = FileDeltum.create!(event_time: payload['time'],
 				filename: payload['name'])
-				binding.pry
+
 				payload["flags"].each {|flag|
 					if flag == "create" 
 						f.create_flag = true
