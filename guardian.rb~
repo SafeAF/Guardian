@@ -17,7 +17,8 @@ def initiateInotify(targetDir, server)
 		postJSON(server, 
 		{:hostname => `hostname`.chomp!,
 		 :time => Time.now,
-		 :name => event.name, 
+		 :name => event.name,
+		 :target_directory => targetDir, 
 		 :flags => event.flags}.to_json)
 	end
 	hook.run

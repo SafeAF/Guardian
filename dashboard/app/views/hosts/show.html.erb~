@@ -52,8 +52,7 @@
         <td><%= file_delta.modify_flag %></td>
         <td><%= file_delta.moved_from_flag %></td>
 
-        <td><%= link_to 'Edit', edit_file_delta_path(host) %></td>
-        <td><%= link_to 'Destroy', file_delta, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+       
       </tr>
     <% end %>
   </tbody>

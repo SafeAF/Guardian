@@ -20,7 +20,8 @@ $redis.subscribe('guardian') do |on|
 		if Host.exists?(hostname: payload['hostname'])
 			h = Host.find_by hostname: payload['hostname']
 			f = FileDeltum.create(event_time: payload['time'],
-				filename: payload['name'])
+				filename: payload['name'], 
+				directory: payload['target_directory'])
 				# implement this more cleanly
 				payload["flags"].each {|flag|
 					if flag == "create" 
@@ -35,7 +36,7 @@ $redis.subscribe('guardian') do |on|
 					if flag == "delete" 
 						f.delete_flag = true
 					end}
-				binding.pry
+
 				h.file_delta << f
 				h.save!
 				
