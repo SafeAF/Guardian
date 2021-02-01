@@ -5,7 +5,7 @@ require 'json'
 require 'pry' # use binding.pry for debugging
 
 ENV['RAILS_ENV'] = 'development'
-require '../dashboard/config/environment.rb'
+require './dashboard/config/environment.rb'
 
 $redis = Redis.new(:timeout => 0)
 
