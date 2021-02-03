@@ -16,7 +16,7 @@ ActiveRecord::Base.establish_connection(
 $redis.subscribe('guardian') do |on|
 	on.message do |channel, msg|
 		payload = JSON.parse(msg)
-		
+
 		if Host.exists?(hostname: payload['hostname'])
 			h = Host.find_by hostname: payload['hostname']
 			f = FileDeltum.create(event_time: payload['time'],

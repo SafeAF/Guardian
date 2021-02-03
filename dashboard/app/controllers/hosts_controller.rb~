@@ -5,11 +5,13 @@ class HostsController < ApplicationController
   # GET /hosts.json
   def index
     @hosts = Host.all
+   
   end
 
   # GET /hosts/1
   # GET /hosts/1.json
   def show
+  	@file_delta = @host.file_delta
   end
 
   # GET /hosts/new

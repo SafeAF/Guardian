@@ -11,7 +11,7 @@ class HostsController < ApplicationController
   # GET /hosts/1
   # GET /hosts/1.json
   def show
-  	@file_delta = @host.file_delta
+  	@file_delta = @host.file_delta.reverse
   end
 
   # GET /hosts/new
