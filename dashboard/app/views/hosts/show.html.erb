@@ -25,39 +25,7 @@
   <%= @host.user_id %>
 </p>
 
-<h1>File Delta</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Filename</th>
-      <th>Directory</th>
-      <th>Event Time</th>
-      <th>Create Flag</th>
-      <th>Delete Flag</th>
-      <th>Modify Flag</th>
-      <th>Moved From Flag</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @file_delta.each do |file_delta| %>
-      <tr>
-        <td><%= file_delta.filename %></td>
-        <td><%= file_delta.directory %></td>
-        <td><%= file_delta.event_time %></td>
-        <td><%= file_delta.create_flag %></td>
-        <td><%= file_delta.delete_flag %></td>
-        <td><%= file_delta.modify_flag %></td>
-        <td><%= file_delta.moved_from_flag %></td>
-
-       
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
+<%= render "dtable" %>
 <br>
 
 
