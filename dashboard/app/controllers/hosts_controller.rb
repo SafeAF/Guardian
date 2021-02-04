@@ -13,6 +13,11 @@ class HostsController < ApplicationController
   def show
   	@file_delta = @host.file_delta.reverse
   end
+  
+  def from_file_delta
+  	 @file_delta = Host.all[0].file_delta.reverse
+  	 render partial: 'hosts/dtable'
+  end 
 
   # GET /hosts/new
   def new

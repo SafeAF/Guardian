@@ -25,7 +25,17 @@
   <%= @host.user_id %>
 </p>
 
-<%= render "dtable" %>
+<script>
+ $(document).ready(
+ 	function() {
+ 		setInterval(function() {
+ 			$('#dtable').load('/hosts/from_file_delta');
+ 			}, 2000);
+ });
+</script>
+
+<%= render partial: "dtable", locals: { file_delta: @file_delta } %>
+
 <br>
 
 
