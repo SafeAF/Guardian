@@ -5,8 +5,7 @@ Guardian Proto IDS. Uses inotify subsystem in linux to detect changes in files a
  1. Gem install rb-intofiy, redis, connection_pool
  2. Use daemonization script bin/guardianD to execute 
    - Usage: ruby guardianD start|restart|stop <directories/,to/,/monitor/> (optional args)
- 3. ???
- 4. Profit!
+
 
 # Development
  1. Clone
