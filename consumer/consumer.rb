@@ -1,17 +1,17 @@
-require 'active_record'
-require 'sqlite3'
+#require 'active_record'
+#require 'sqlite3'
 require 'redis'
 require 'json'
-require 'pry' # use binding.pry for debugging
+#require 'pry' # use binding.pry for debugging
 
-ENV['RAILS_ENV'] = 'development'
-require '../dashboard/config/environment.rb'
+#ENV['RAILS_ENV'] = 'development'
+#require '../dashboard/config/environment.rb'
 
 $redis = Redis.new(:timeout => 0)
 
-ActiveRecord::Base.establish_connection(
-  adapter: 'sqlite3',
-  database: 'db/development.sqlite3')
+#ActiveRecord::Base.establish_connection(
+#  adapter: 'sqlite3',
+#  database: 'db/development.sqlite3')
 
 $redis.subscribe('guardian') do |on|
 	on.message do |channel, msg|
