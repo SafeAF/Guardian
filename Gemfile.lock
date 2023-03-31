@@ -151,7 +151,7 @@ GEM
     tilt (2.0.10)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
-    uri (0.10.1)
+    uri (0.10.2)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
