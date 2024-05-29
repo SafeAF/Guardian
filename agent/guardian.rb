@@ -3,6 +3,7 @@ require 'rb-inotify'
 require 'uri'
 require 'net/http'
 require 'json'
+require 'socket'
 
 $DBG = true
 server = ARGV[1] || "http://localhost:4567" 
@@ -15,7 +16,7 @@ def initiateInotify(targetDir, server)
 		next if event.nil?
 		p "#{Time.now}: Event name: #{event.name} flags:#{event.flags}" if $DBG
 		postJSON(server, 
-		{:hostname => `hostname`.chomp!,
+		{:hostname => Socket.gethostname,
 		 :time => Time.now,
 		 :name => event.name,
 		 :target_directory => targetDir, 

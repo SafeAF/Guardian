@@ -10,38 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_27_144141) do
-
+ActiveRecord::Schema[7.1].define(version: 2021_01_27_144141) do
   create_table "file_delta", force: :cascade do |t|
     t.string "filename"
     t.string "directory"
-    t.datetime "event_time"
+    t.datetime "event_time", precision: nil
     t.boolean "moved_from_flag"
     t.boolean "create_flag"
     t.boolean "delete_flag"
     t.boolean "modify_flag"
     t.integer "host_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["host_id"], name: "index_file_delta_on_host_id"
   end
 
   create_table "hosts", force: :cascade do |t|
     t.string "hostname"
     t.string "ip"
-    t.datetime "first_seen"
-    t.datetime "last_seen"
+    t.datetime "first_seen", precision: nil
+    t.datetime "last_seen", precision: nil
     t.integer "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_hosts_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "password"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "file_delta", "hosts"
